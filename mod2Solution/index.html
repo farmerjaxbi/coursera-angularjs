@@ -1,9 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html ng-app="ShoppingListCheckOff" lang="en">
   <head>
     <title>Shopping List Check Off</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <script src="angular.js"> </script>
+    <script src="app.js"> </script>
     <style>
       .emptyMessage {
         font-weight: bold;
@@ -29,22 +31,30 @@
   <div class="row">
 
     <!-- To Buy List -->
-    <div class="col-md-6">
+    <div class="col-md-6" ng-controller='ToBuyShoppingController as tobuy'>
      <h2>To Buy:</h2>
      <ul>
-       <li>Buy 10 cookies <button class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
-       <li>Buy 10 cookies <button class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+       <li ng-repeat="item in tobuy.items">Buy {{item.quantity}} {{item.name}}<button class="btn btn-default" ng-click="tobuy.addItem($index);"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
      </ul>
-     <div class="emptyMessage">Everything is bought!</div>
+
+
+     <!-- <ul>
+       <li>Buy 10 cookies <button class="btn btn-default" ng-click="tobuy.addItem();"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+       <li>Buy 10 cookies <button class="btn btn-default" ng-click="tobuy.addItem();"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+     </ul> -->
+     <!-- <div class="emptyMessage">A  Everything is bought!</div> -->
+     <div ng-if="tobuy.errorMessage" class="emptyMessage">{{tobuy.errorMessage}}</div>
     </div>
 
     <!-- Already Bought List -->
-    <div class="col-md-6">
-     <h2>Already Bought:</h2>
+    <div class="col-md-6" ng-controller='AlreadyBoughtShoppingController as bought'>
+     <h2>Already Bought: </h2>
      <ul>
-       <li>Bought 10 cookies</li>
+       <li ng-repeat="item in bought.items">Bought {{item.quantity}} {{item.name}}</li>
+
      </ul>
-     <div class="emptyMessage">Nothing bought yet.</div>
+     <div ng-if="bought.errorMessage" class="emptyMessage">{{bought.errorMessage}}</div>  need to call this many times to get it to work i think.{{}}
+     <!-- <div class="emptyMessage">Nothing bought yet.</div> -->
     </div>
   </div>
 </div>
