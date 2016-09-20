@@ -36,13 +36,6 @@
      <ul>
        <li ng-repeat="item in tobuy.items">Buy {{item.quantity}} {{item.name}}<button class="btn btn-default" ng-click="tobuy.addItem($index);"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
      </ul>
-
-
-     <!-- <ul>
-       <li>Buy 10 cookies <button class="btn btn-default" ng-click="tobuy.addItem();"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
-       <li>Buy 10 cookies <button class="btn btn-default" ng-click="tobuy.addItem();"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
-     </ul> -->
-     <!-- <div class="emptyMessage">A  Everything is bought!</div> -->
      <div ng-if="tobuy.errorMessage" class="emptyMessage">{{tobuy.errorMessage}}</div>
     </div>
 
@@ -53,8 +46,7 @@
        <li ng-repeat="item in bought.items">Bought {{item.quantity}} {{item.name}}</li>
 
      </ul>
-     <div ng-if="bought.errorMessage" class="emptyMessage">{{bought.errorMessage}}</div>  need to call this many times to get it to work i think.{{}}
-     <!-- <div class="emptyMessage">Nothing bought yet.</div> -->
+     <div ng-if="bought.items.length == 0" class="emptyMessage"> {{bought.initialMessage}} </div>
     </div>
   </div>
 </div>

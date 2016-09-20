@@ -9,38 +9,29 @@ angular.module('ShoppingListCheckOff', [])
 ToBuyShoppingController.$inject = ['ShoppingListCheckOffService'];
 function ToBuyShoppingController(ShoppingListCheckOffService) {
   var tobuy = this;
-
-  // tobuy.itemName = "";
-  // tobuy.itemQuantity = "";
-
   tobuy.items = ShoppingListCheckOffService.getItems();
-
   tobuy.addItem = function (index) {
     try {
-    // console.log(tobuy);
     tobuy.itemName = tobuy.items[index].name;
     tobuy.itemQuantity = tobuy.items[index].quantity;
     ShoppingListCheckOffService.addItem(tobuy.itemName, tobuy.itemQuantity, index);
-    // console.log(tobuy.itemName, tobuy.itemQuantity);
-    // console.log(bought);
-  } catch (error) {
+    } catch (error) {
     tobuy.errorMessage = error.message;
-
-  }
+      }
   }
 }
 
 AlreadyBoughtShoppingController.$inject = ['ShoppingListCheckOffService'];
 function AlreadyBoughtShoppingController(ShoppingListCheckOffService) {
   var bought = this;
-  try {
     bought.items = ShoppingListCheckOffService.getBought();
-  } catch (error2) {
-    bought.errorMessage = error.message;
+    bought.onceCounter = 0;
+    try {
+    ShoppingListCheckOffService.initialMessage(bought.onceCounter);
+    } catch (error) {
+    bought.initialMessage = error.message;
   }
 }
-
-
 
 function ShoppingListCheckOffService() {
   var service = this;
@@ -72,7 +63,6 @@ function ShoppingListCheckOffService() {
 // items bought
 
   var bought = [];
-
   var itemCount = tobuy.length;
 
   service.addItem = function (itemName, quantity, index) {
@@ -82,11 +72,8 @@ function ShoppingListCheckOffService() {
       quantity: quantity
     };
     bought.push(item);
-
-
     tobuy.splice(index, 1);
     itemCount = tobuy.length;
-    console.log(itemCount);
     if (itemCount == '0') {
       throw new Error("Everything is bought!");
     }
@@ -95,10 +82,13 @@ function ShoppingListCheckOffService() {
 
   };
 
-  // service.removeItem = function (itemIdex) {
-  //   tobuy.splice(itemIdex, 1);
-  // };
-
+  service.initialMessage = function (input) {
+    if (input == 1) {
+    }
+    else {
+      throw new Error("Nothing bought yet");
+    }
+  };
   service.getItems = function () {
     return tobuy;
   };
