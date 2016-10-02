@@ -9,6 +9,11 @@ input[type="text"] {
   float: left;
   margin-left: 10px;
 }
+.wide-list{
+  margin-top: 0px;
+  margin-left: 10px;
+
+}
 .loader {
   display: none;
   margin-left: 5px;

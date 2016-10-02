@@ -1,0 +1,7 @@
+<h3 class="wide-list">Found Items</h3>
+<ol>
+  <li ng-repeat="item in menu.items">
+        {{ item.description }}
+    <button ng-click="menu.onRemove({index,$index});">Remove Item</button>
+  </li>
+</ol>
