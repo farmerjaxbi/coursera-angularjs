@@ -12,7 +12,8 @@ function FoundItemsDirective() {
     templateUrl: 'foundList.html',
     scope: {
       items: '<',
-      onRemove: '&'
+      onRemove: '&',
+      emptyList: '<'
     },
     controller: FoundItemsDirectiveController,
     controllerAs: 'menu',
@@ -23,7 +24,18 @@ function FoundItemsDirective() {
 }
 
 function FoundItemsDirectiveController() {
-   var list = this;
+   var menu = this;
+    // console.log(menu);
+
+   menu.emptyListCheck = function() {
+
+       if (menu.items == 0) {
+
+         return true;
+       }
+
+    return false;
+   };
 
 }
 
@@ -37,9 +49,12 @@ function NarrowItDownController(MenuSearchService) {
   menu.items = MenuSearchService.getItems();
 
 
+  menu.emptyList = MenuSearchService.getEmpty();
+
+
   menu.getMatchedMenuItems = function(response) {
     found = MenuSearchService.getMatchedMenuItems(menu.searchTerm);
-
+    // console.log(found);
   };
   menu.removeItem = function (itemIndex) {
     MenuSearchService.removeItem(itemIndex);
@@ -52,30 +67,47 @@ MenuSearchService.$inject = ['$http', 'ApiBasePath'];
 function MenuSearchService($http, ApiBasePath) {
   var service = this;
   var menuArray = [];
-
+  var emptyList = [];
   service.getMatchedMenuItems = function(searchTerm) {
-    return $http({
-      method: "GET",
-      url: ApiBasePath
-    }).then(function(result){
-      var foundItems = result.data.menu_items;
-      // console.log(foundItems);
-      var foundDescriptions = []
-      var i,j = 0
+    menuArray.length = 0;
 
-      for (i = 0; i <foundItems.length; i++) {
-        if (foundItems[i].description.indexOf(searchTerm) !== -1) {
-          menuArray.push(foundItems[i]);
-        }
-        foundDescriptions.push(foundItems[i].description);
-      };
+    if (searchTerm !=''){
+      return $http({
+        method: "GET",
+        url: ApiBasePath
+      }).then(function(result){
+        var foundItems = result.data.menu_items;
 
-      return menuArray;
-    });
+        var foundDescriptions = []
+        var i,j = 0
+
+        for (i = 0; i <foundItems.length; i++) {
+          if (foundItems[i].description.indexOf(searchTerm) !== -1) {
+            menuArray.push(foundItems[i]);
+          }
+
+        };
+
+        emptyList.push('not-empty');
+        return emptyList;
+        // return menuArray;
+      });
+    }
+
+    else {
+      emptyList = ['empty'];
+      return emptyList;
+    };
+
+  };
+
+  service.getEmpty = function() {
+
+      return emptyList;
   };
 
   service.getItems = function() {
-    // console.log(menuArray);
+
     return menuArray;
   };
 

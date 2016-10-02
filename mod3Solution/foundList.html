@@ -2,6 +2,7 @@
 <ol>
   <li ng-repeat="item in menu.items">
         {{ item.description }}
-    <button ng-click="menu.onRemove({index,$index});">Remove Item</button>
+    <button ng-click="menu.onRemove({index,$index});">Don't want this one!</button>
   </li>
 </ol>
+<div class="error" ng-if="menu.emptyListCheck(menu.emptyList)">Nothing found</div>
