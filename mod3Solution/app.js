@@ -28,8 +28,8 @@ function FoundItemsDirectiveController() {
     // console.log(menu);
 
    menu.emptyListCheck = function() {
-
-       if (menu.items == 0) {
+    //  console.log(menu.emptyList);
+       if (menu.emptyList[0] == 'empty') {
 
          return true;
        }
@@ -67,10 +67,10 @@ MenuSearchService.$inject = ['$http', 'ApiBasePath'];
 function MenuSearchService($http, ApiBasePath) {
   var service = this;
   var menuArray = [];
-  var emptyList = [];
+  var emptyList = ['not-empty'];
   service.getMatchedMenuItems = function(searchTerm) {
     menuArray.length = 0;
-
+    emptyList[0] = 'not-empty';
     if (searchTerm !=''){
       return $http({
         method: "GET",
@@ -88,14 +88,15 @@ function MenuSearchService($http, ApiBasePath) {
 
         };
 
-        emptyList.push('not-empty');
+        emptyList[0] = 'not-empty';
+        // emptyList.push('not-empty');
         return emptyList;
         // return menuArray;
       });
     }
 
     else {
-      emptyList = ['empty'];
+      emptyList[0] = 'empty';
       return emptyList;
     };
 
@@ -112,6 +113,7 @@ function MenuSearchService($http, ApiBasePath) {
   };
 
   service.removeItem = function(itemIndex) {
+
     menuArray.splice(itemIndex,1);
   };
 
