@@ -87,8 +87,12 @@ function MenuSearchService($http, ApiBasePath) {
           }
 
         };
-
-        emptyList[0] = 'not-empty';
+        if (menuArray.length > 0) {
+          emptyList[0] = 'not-empty';
+        }
+        else {
+        emptyList[0] = 'empty';
+      };
         // emptyList.push('not-empty');
         return emptyList;
         // return menuArray;
